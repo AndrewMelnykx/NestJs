@@ -50,4 +50,11 @@ export class TaskService {
 
     return task;
   }
+  patchUpdate(id: number, dto: Partial<UpdateTaskDto>) {
+    const task = this.findById(id);
+
+    Object.assign(task, dto);
+
+    return task;
+  }
 }
