@@ -5,7 +5,15 @@ import {
   IsPositive,
   IsString,
   Length,
+  IsArray,
+  IsEnum,
 } from 'class-validator';
+
+export enum TaskTag {
+  WORK = 'work',
+  STUDY = 'study',
+  HOME = 'home',
+}
 
 export class CreateTaskDto {
   @IsString()
@@ -21,4 +29,9 @@ export class CreateTaskDto {
   @IsOptional()
   @IsPositive({ message: 'Priority has to be positive' })
   priority: number;
+
+  @IsArray({ message: 'Tags have to be an array' })
+  @IsEnum(TaskTag, { each: true, message: 'Forbidden tag value' })
+  @IsOptional()
+  tags: TaskTag[];
 }
