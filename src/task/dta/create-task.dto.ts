@@ -1,4 +1,11 @@
-import { IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsInt,
+  IsOptional,
+  IsPositive,
+  IsString,
+  Length,
+} from 'class-validator';
 
 export class CreateTaskDto {
   @IsString()
@@ -9,4 +16,9 @@ export class CreateTaskDto {
   @IsString({ message: 'Description has to be a string' })
   @IsOptional()
   description: string;
+
+  @IsInt({ message: 'Priority has to be an integer' })
+  @IsOptional()
+  @IsPositive({ message: 'Priority has to be positive' })
+  priority: number;
 }
