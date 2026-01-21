@@ -9,6 +9,7 @@ import {
   IsEnum,
   Matches,
   IsUrl,
+  IsUUID,
 } from 'class-validator';
 
 export enum TaskTag {
@@ -54,4 +55,7 @@ export class CreateTaskDto {
     { message: 'Incorrect url formate' },
   )
   websiteUrl: string;
+
+  @IsUUID('4', { message: 'Incorrect UID' })
+  userId: string;
 }
