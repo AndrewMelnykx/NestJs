@@ -7,6 +7,8 @@ import {
   Length,
   IsArray,
   IsEnum,
+  Matches,
+  IsUrl,
 } from 'class-validator';
 
 export enum TaskTag {
@@ -34,4 +36,22 @@ export class CreateTaskDto {
   @IsEnum(TaskTag, { each: true, message: 'Forbidden tag value' })
   @IsOptional()
   tags: TaskTag[];
+
+  @IsString({ message: 'Password has to be a string' })
+  @Length(6, 10, { message: 'Password has to be from 6 to 10 symbols' })
+  @Matches(/^(?=.*[A-Z])(?=.*[0-9]).+$/, {
+    message: 'Password has to contain at least one capital letter and a number',
+  })
+  password: string;
+
+  @IsUrl(
+    {
+      protocols: ['https'],
+      require_valid_protocol: false,
+      host_whitelist: ['google.com'],
+      host_blacklist: ['htmllessons.io'],
+    },
+    { message: 'Incorrect url formate' },
+  )
+  websiteUrl: string;
 }
