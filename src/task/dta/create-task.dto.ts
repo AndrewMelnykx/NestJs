@@ -11,6 +11,7 @@ import {
   IsUrl,
   IsUUID,
 } from 'class-validator';
+import { StartsWith } from 'src/decorators/start-with.decorator';
 
 export enum TaskTag {
   WORK = 'work',
@@ -21,6 +22,7 @@ export enum TaskTag {
 export class CreateTaskDto {
   @IsString()
   @IsNotEmpty()
+  @StartsWith('Task:', { message: 'Invalid name' })
   @Length(2, 40)
   title: string;
 
@@ -39,12 +41,14 @@ export class CreateTaskDto {
   tags: TaskTag[];
 
   @IsString({ message: 'Password has to be a string' })
+  @IsOptional()
   @Length(6, 10, { message: 'Password has to be from 6 to 10 symbols' })
   @Matches(/^(?=.*[A-Z])(?=.*[0-9]).+$/, {
     message: 'Password has to contain at least one capital letter and a number',
   })
   password: string;
 
+  @IsOptional()
   @IsUrl(
     {
       protocols: ['https'],
@@ -56,6 +60,7 @@ export class CreateTaskDto {
   )
   websiteUrl: string;
 
+  @IsOptional()
   @IsUUID('4', { message: 'Incorrect UID' })
   userId: string;
 }
