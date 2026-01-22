@@ -1,11 +1,29 @@
-import { Controller, Get } from '@nestjs/common';
-import { MovieService } from './movie.service';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 
-@Controller('movie')
+@Controller(
+  // {path: 'movies',host: ['api.nest.usa, api.google.com'],}
+  'movies',
+)
 export class MovieController {
-  constructor(private readonly movieService: MovieService) {}
-  @Get('test')
-  async test() {
-    return this.movieService.test();
+  @Get()
+  // findAll(@Query('genre') genre: string) {
+  //   return genre
+  //     ? `Movies in genre ${genre}`
+  //     : [
+  //         {
+  //           title: 'Fight club',
+  //         },
+  //         {
+  //           title: 'Pulp fiction',
+  //         },
+  //       ];
+  // }
+  findAll(@Query() query: any) {
+    return JSON.stringify(query);
+  }
+  @Post()
+  create(@Body() body: { title: string; genre: string }) {
+    // return `Movie "${body.title} with genre ${body.genre} has been added"`;
+    return body;
   }
 }
