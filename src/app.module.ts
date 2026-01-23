@@ -6,6 +6,7 @@ import { MovieModule } from './movie/movie.module';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { getTypeormConfig } from './config/typeorm.config';
 
 @Module({
   imports: [
@@ -17,16 +18,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     UserModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.getOrThrow('POSTGRES_HOST'),
-        username: 'root',
-        port: 5433,
-        password: '123456',
-        database: 'nestjs-course',
-        autoLoadEntities: true,
-        synchronize: true,
-      }),
+      useFactory: getTypeormConfig,
       inject: [ConfigService],
     }),
   ],
