@@ -1,61 +1,18 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Headers,
-  Post,
-  Query,
-  Req,
-  Res,
-} from '@nestjs/common';
-import type { Request, Response } from 'express';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { MovieService } from './movie.service';
+import { CreateMovieDto } from './dto/rename-movie.dto';
 
-@Controller(
-  // {path: 'movies',host: ['api.nest.usa, api.google.com'],}
-  'movies',
-)
+@Controller()
 export class MovieController {
+  constructor(private readonly movieService: MovieService) {}
+
   @Get()
-  // findAll(@Query('genre') genre: string) {
-  //   return genre
-  //     ? `Movies in genre ${genre}`
-  //     : [
-  //         {
-  //           title: 'Fight club',
-  //         },
-  //         {
-  //           title: 'Pulp fiction',
-  //         },
-  //       ];
-  // }
-  findAll(@Query() query: any) {
-    return JSON.stringify(query);
+  findAll() {
+    return this.movieService.findAll();
   }
+
   @Post()
-  create(@Body() body: { title: string; genre: string }) {
-    // return `Movie "${body.title} with genre ${body.genre} has been added"`;
-    return body;
-  }
-  // @Get('headers')
-  // getHeader(@Headers() headers: any) {
-  //   return headers;
-  // }
-  @Get('user-agent')
-  getUserAgent(@Headers('user-agent') userAgent: string) {
-    return { userAgent };
-  }
-  @Get('request')
-  getRequestDetails(@Req() req: Request) {
-    return {
-      method: req.method,
-      url: req.url,
-      headers: req.headers,
-      query: req.query,
-      params: req.params,
-    };
-  }
-  @Get('response')
-  getResponseDetails(@Res() res: Response) {
-    res.status(201).json({ message: 'Hello' });
+  create(@Body() dto: CreateMovieDto) {
+    return this.movieService.create(dto);
   }
 }
