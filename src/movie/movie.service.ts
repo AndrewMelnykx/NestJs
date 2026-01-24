@@ -12,9 +12,9 @@ export class MovieService {
   ) {}
   async findAll(): Promise<MovieEntity[]> {
     return await this.movieRepository.find({
-      //   where: {
-      //     isPublic: true,
-      //   },
+      where: {
+        isAvailable: true,
+      },
       order: {
         createdAt: 'desc',
       },
