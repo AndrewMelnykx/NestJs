@@ -2,14 +2,16 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  PrimaryGeneratedColumn,
+  Generated,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity({ name: 'movies' })
 export class MovieEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  @Generated('uuid')
+  id: string;
 
   @Column()
   title: string;
