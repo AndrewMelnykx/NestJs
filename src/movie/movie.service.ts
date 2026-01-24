@@ -15,7 +15,6 @@ export class MovieService {
   }
   async create(dto: CreateMovieDto): Promise<MovieEntity> {
     const movie = this.movieRepository.create(dto);
-
     return await this.movieRepository.save(movie);
   }
 }
