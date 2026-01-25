@@ -5,6 +5,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
@@ -28,7 +29,8 @@ export class ReviewEntity {
     default: 0.0,
   })
   rating: number;
-  @Column({ name: 'movie_id', type: 'uuid' })
+
+  @PrimaryColumn({ name: 'movie_id', type: 'uuid' })
   movieId: string;
 
   @ManyToOne(() => MovieEntity, (movie) => movie.reviews, {
