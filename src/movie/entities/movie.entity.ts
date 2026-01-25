@@ -5,12 +5,15 @@ import {
   CreateDateColumn,
   Entity,
   Generated,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { MoviePosterEntity } from './poster.entity';
 
 export enum Genre {
   ACTION = 'action',
@@ -38,6 +41,9 @@ export class MovieEntity {
   description: string;
   @Column({ type: 'enum', enum: Genre, default: Genre.COMEDY })
   genre: Genre;
+
+  // @Column({ name: 'poster_id', type: 'uuid', nullable: true })
+  // posterId: string;
 
   @Column({
     name: 'released_year',
@@ -70,6 +76,14 @@ export class MovieEntity {
     inverseJoinColumn: { name: 'actor_id', referencedColumnName: 'id' },
   })
   actors: ActorEntity[];
+
+  @OneToOne(() => MoviePosterEntity, (poster) => poster.movie, {
+    cascade: true,
+    nullable: true,
+    eager: true,
+  })
+  @JoinColumn({ name: 'poster_id' })
+  poster: MoviePosterEntity | null;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
